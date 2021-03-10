@@ -6,6 +6,7 @@ import {
 } from '../privateConfig.js'
 
 const INTERVAL_MS = LOOP_INTERVAL * 60 * 1000 // milliseconds
+const notifiedThisRound = new Set();
 
 /*
  * param {String} name
@@ -34,8 +35,12 @@ const checkAllSites = async (page) => {
     const result = await runCheckerSafely(name, checker, page, SEARCH)
 
     if (result === true) {
-      notify(name, url) // we're not going to `await`, we're going to multi-task
+      if (!notifiedThisRound.has(name)) {
+        notify(name, url); // we're not going to `await`, we're going to multi-task
+        notifiedThisRound.add(name);
+      }
     } else if (result === false) {
+      notifiedThisRound.delete(name);
       console.log(`⛔ ${name} has no appointments open yet.`)
     } else {
       console.log(`❓ ${name} appointment availability is unknown 🤔.`)
