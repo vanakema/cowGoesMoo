@@ -1,6 +1,7 @@
 import { hasInnertText } from '../utils/page.js'
 
 const NAME = 'Walgreens'
+const introURL = 'https://www.walgreens.com/findcare/vaccination/covid-19'
 const URL = 'https://www.walgreens.com/findcare/vaccination/covid-19/location-screening'
 
 const HAPPY_TEXT = 'Appointments available!'
@@ -45,6 +46,7 @@ const checkBanners = async (page) => {
  * returns Promise<boolean> - appointment availability
 */
 const checker = async (page, { zipCode }) => {
+  await page.goto(introURL)
   await page.goto(URL)
   const zipCodeInputField = await page.$(ZIP_CODE_INPUT_FIELD)
 
@@ -69,5 +71,5 @@ const checker = async (page, { zipCode }) => {
 export default {
   name: NAME,
   checker,
-  url: URL,
+  url: introURL,
 }
