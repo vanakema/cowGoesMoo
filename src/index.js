@@ -27,7 +27,7 @@ const start = async () => {
   const browser = await puppeteer.launch({
     headless: HIDE_BROWSER,
     defaultViewport: { width, height },
-    args: [`--window-size=${width},${height}`]
+    args: [`--window-size=${width},${height}`, `--no-sandbox`]
   })
 
   try {
